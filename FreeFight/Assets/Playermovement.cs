@@ -5,19 +5,24 @@ using UnityEngine.UI;
 
 public class Playermovement : MonoBehaviour
 { 
-    LeftBehide LeftBehide;
+    
     public bool xxe;
     public GameObject losepanael;
     public GameObject winpanael;
-    public GameObject e;
+    public GameObject warn;
     public float timex,timexg,durations;
     public float UD, mSpeed = 10.0f;
     public float spdt;
     public bool boost;
+    public Material[] material;
+    Renderer rend;
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        rend = GetComponent<Renderer>();
+        rend.enabled = true;
+        rend.sharedMaterial = material[0];
     }
 
     // Update is called once per frame
@@ -30,8 +35,10 @@ public class Playermovement : MonoBehaviour
         transform.Translate(0, UD * Time.deltaTime * mSpeed, 0);
         timex = timex + Time.deltaTime;
         durations = durations - Time.deltaTime;
+        
         if (timex > 7)
         {
+            
             mSpeed = mSpeed + 0.5f;
             timex = 0;
         }
@@ -43,6 +50,7 @@ public class Playermovement : MonoBehaviour
                 mSpeed = mSpeed - 10f;
             }
         }
+        
         
 
 
@@ -56,16 +64,15 @@ public class Playermovement : MonoBehaviour
         }
         if (other.gameObject.tag == "X")
         {
-            Destroy(gameObject);
 
-            losepanael.SetActive(true);
-
+            rend.sharedMaterial = material[1];
+            Destroy(other.gameObject);
         }
         if (other.gameObject.tag == "Col")
         {
-            Destroy(gameObject);
 
-            losepanael.SetActive(true);
+            rend.sharedMaterial = material[1];
+            Destroy(other.gameObject);
 
         }
         if (other.gameObject.tag == "Star")
@@ -108,13 +115,10 @@ public class Playermovement : MonoBehaviour
             mSpeed = mSpeed + 10f;
             durations = 2f;
             Destroy(collision.gameObject);
-           
-            
-
-
-
 
         }
     }
-    
+
+
+
 }

@@ -12,6 +12,7 @@ TagManager:
   - Boost
   - Col
   - Star
+  - Test
   layers:
   - Default
   - TransparentFX

@@ -35,7 +35,7 @@ public class Randomscene : MonoBehaviour
     }
     IEnumerator GenarateSection()
     {
-        secNum = Random.Range(0, 1);
+        secNum = Random.Range(0, 3);
         Instantiate(section[secNum], new Vector3(xpos, 15, 60), Quaternion.identity);
         xpos += 250;
         sectioncount += 1;
