@@ -11,15 +11,16 @@ public class Playermovement : MonoBehaviour
     public GameObject winpanael;
     public GameObject pause;
     public float timex,timexg,durations;
-    public float UD, mSpeed = 10.0f;
+    public static float UD, mSpeed =16;
     public float spdt;
     public bool boost;
     public Material[] material;
     public Animator e;
     Renderer rend;
     bool Hitsc;
-    LeftBehide left;
+    menucon me;
     public static bool gameP = false;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -34,23 +35,43 @@ public class Playermovement : MonoBehaviour
     void Update()
     {
 
-
+        
         transform.Translate(0, 0, 1 * Time.deltaTime * mSpeed);
         UD = Input.GetAxis("Vertical");
         transform.Translate(0, UD * Time.deltaTime * mSpeed, 0);
         timex = timex + Time.deltaTime;
         durations = durations - Time.deltaTime;
-        
-        if (timex > 7)
+       
+        if (mSpeed < 19)
         {
-            
-            mSpeed = mSpeed + 0.5f;
-            timex = 0;
+            if (timex > 7)
+            {
+                mSpeed = mSpeed + 0.5f;
+                timex = 0;
+
+            }
         }
+        else 
+        {
+            if (!boost)
+            {
+                mSpeed = 19;
+            }
+            else
+            {
+
+            }
+            
+
+        }
+        
+        
+        
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (gameP)
+            
+             if (gameP && menucon.closeops==false)
             {
                 Resume();
             }
@@ -63,17 +84,26 @@ public class Playermovement : MonoBehaviour
 
 
     }
+  
+
     void Resume()
     {
         pause.SetActive(false);
+        Cursor.visible = false;
         Time.timeScale = 1f;
         gameP = false;
+        
     }
     void Pause()
     {
+        
         pause.SetActive(true);
         Time.timeScale = 0f;
+        Cursor.visible = true;
         gameP = true;
+
+        
+        
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -108,11 +138,13 @@ public class Playermovement : MonoBehaviour
             {
                 winpanael.SetActive(true);
                 Time.timeScale = 0;
+                Cursor.visible = true;
             }
             else
             {
                 losepanael.SetActive(true);
                 Time.timeScale = 0;
+                Cursor.visible = true;
             }
 
         }
@@ -136,7 +168,7 @@ public class Playermovement : MonoBehaviour
         if (other.gameObject.tag == "Dead")
         {
             StartCoroutine(dead());
-
+            Cursor.visible = true;
         }
 
         IEnumerator Hit()
@@ -163,9 +195,11 @@ public class Playermovement : MonoBehaviour
         }
         IEnumerator Speed()
         {
+            boost = true;
             mSpeed += 6;
             yield return new WaitForSeconds(1.5f);
             mSpeed -= 6;
+            boost = false;
         }
         IEnumerator desSpeed()
         {
